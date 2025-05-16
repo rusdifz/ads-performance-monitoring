@@ -6,9 +6,13 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   Index,
+  JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
-@Entity({ name: 'clients' })
+import { ContractEntity } from 'src/modules/contract/entities/contract.entity';
+
+@Entity({ name: 'client' })
 export class ClientEntity {
   @Index()
   @PrimaryGeneratedColumn('uuid')
@@ -26,4 +30,8 @@ export class ClientEntity {
 
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp' })
   deletedAt: Date;
+
+  @OneToMany(() => ContractEntity, (entity) => entity.client)
+  @JoinColumn({ name: 'id', referencedColumnName: 'client_id' })
+  contracts?: ContractEntity[];
 }

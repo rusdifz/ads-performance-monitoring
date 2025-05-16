@@ -11,11 +11,11 @@ import {
   OneToOne,
 } from 'typeorm';
 
-import { KpiEnums } from 'src/common/enums/kpi.enums';
 import { ClientEntity } from 'src/modules/clients/entities/client.entity';
-import { AdsPerformanceEntity } from 'src/modules/ads-performance/entities/ads-performance.entity';
+import { ContractEntity } from 'src/modules/contract/entities/contract.entity';
+
 @Entity({ name: 'contracts' })
-export class ContractEntity {
+export class AdsPerformanceEntity {
   @Index()
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -25,25 +25,11 @@ export class ContractEntity {
   clientId: string;
 
   @Index()
-  @Column({ type: 'uuid', name: 'ads_performance_id' })
-  adsPerformanceId: string;
-
-  @Index()
-  @Column({
-    type: 'enum',
-    enum: KpiEnums,
-    default: KpiEnums.CTR,
-  })
-  kpiType: KpiEnums;
+  @Column({ type: 'uuid', name: 'contract_id' })
+  contractId: string;
 
   @Column({ type: 'float' })
-  kpiTarget: number;
-
-  @Column({ type: 'timestamp' })
-  startDate: Date;
-
-  @Column({ type: 'timestamp' })
-  endDate: Date;
+  actual_value: number;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   createdAt: Date;
@@ -60,9 +46,9 @@ export class ContractEntity {
   @JoinColumn({ name: 'client_id', referencedColumnName: 'id' })
   client?: ClientEntity;
 
-  @OneToOne(() => AdsPerformanceEntity, (entity) => entity.contract, {
+  @OneToOne(() => ContractEntity, (entity) => entity.adsPerformance, {
     createForeignKeyConstraints: true,
   })
-  @JoinColumn({ name: 'ads_performance_id', referencedColumnName: 'id' })
-  adsPerformance?: AdsPerformanceEntity;
+  @JoinColumn({ name: 'contract_id', referencedColumnName: 'id' })
+  contract?: ContractEntity;
 }
