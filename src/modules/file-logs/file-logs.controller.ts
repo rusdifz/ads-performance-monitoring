@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
 
 //akan di siapkan untuk endpoint kedepannya
-@Controller('user')
-export class UserController {}
+@Controller('file-logs')
+export class FileLogsController {}

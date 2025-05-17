@@ -7,12 +7,18 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUUID,
   ValidateIf,
 } from 'class-validator';
 
 import { PaginationDTO } from 'src/common/dto';
 import { KpiEnums } from 'src/common/enums/kpi.enums';
+
 import { AdsPerformanceEntity } from '../entities/ads-performance.entity';
+import { ClientEntity } from 'src/modules/clients/entities/client.entity';
+import { ContractEntity } from 'src/modules/contract/entities/contract.entity';
+
+import { IsExist } from 'src/common/decorators/is-exists.decorator';
 
 export class FilterUnderperformingAdsDTO extends PaginationDTO {
   @ApiProperty({ example: 0.03 })
@@ -64,18 +70,20 @@ export class FilterUnderperformingAdsDTO extends PaginationDTO {
   date: string;
 }
 
-export class CreateAdPerformance implements Partial<AdsPerformanceEntity> {
-  @ApiProperty({ example: '' })
+export class CreateAdPerformanceDTO implements Partial<AdsPerformanceEntity> {
+  @ApiProperty({ example: 'd5f829fe-82a5-473b-bcfb-c6ea0094f184' })
   @IsNotEmpty()
-  @IsString()
+  @IsUUID()
+  @IsExist(ClientEntity, 'id', { message: 'id client not found' })
   clientId: string;
 
-  @ApiProperty({ example: '' })
+  @ApiProperty({ example: '41e990c7-8f91-43b9-8f62-ff95c3ee43bf' })
   @IsNotEmpty()
-  @IsString()
+  @IsUUID()
+  @IsExist(ContractEntity, 'id', { message: 'id contract not found' })
   contractId: string;
 
-  @ApiProperty({ example: '' })
+  @ApiProperty({ example: 0.3 })
   @IsNotEmpty()
   @IsNumber()
   actual_value: number;

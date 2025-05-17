@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { useContainer } from 'class-validator';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { json, urlencoded } from 'express';
 
 import {
   CommonHeaderGuard,
@@ -38,10 +37,6 @@ async function bootstrap() {
 
   app.useGlobalGuards(new CommonHeaderGuard());
 
-  // Tambahkan limit untuk file upload
-  // app.use(json({ limit: '10mb' }));
-  // app.use(urlencoded({ extended: true, limit: '10mb' }));
-
   app.setGlobalPrefix('api');
 
   // build docs, do not forget to change description
@@ -51,11 +46,10 @@ async function bootstrap() {
       `API Ads Performance Monitoring System <br><br>
         **Base URL** <br><br>
         **Development** <br>http://localhost:${process.env.PORT}/api <br><br>
-        **Development** <br>https://lost-faina-razdev-fa08e1ef.koyeb.app/api <br><br>`,
+      `,
     )
     .setVersion('1.0')
     .addServer(`http://localhost:${process.env.PORT}/api`, 'Localhost')
-    // .addServer('https://lost-faina-razdev-fa08e1ef.koyeb.app/api', 'Production')
 
     .build();
   const document = SwaggerModule.createDocument(app, config);

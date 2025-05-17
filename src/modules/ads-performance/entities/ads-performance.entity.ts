@@ -14,7 +14,7 @@ import {
 import { ClientEntity } from 'src/modules/clients/entities/client.entity';
 import { ContractEntity } from 'src/modules/contract/entities/contract.entity';
 
-@Entity({ name: 'contracts' })
+@Entity({ name: 'ads_performance' })
 export class AdsPerformanceEntity {
   @Index()
   @PrimaryGeneratedColumn('uuid')

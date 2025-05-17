@@ -15,6 +15,7 @@ import { BaseQueryRepository } from 'src/common/repositories';
 
 import { AdsPerformanceEntity } from './entities/ads-performance.entity';
 import { FilterUnderperformingAdsDTO } from './dto/request.dto';
+import { ContractEntity } from '../contract/entities/contract.entity';
 
 @Injectable()
 export class AdsPerformanceRepository extends BaseQueryRepository {
@@ -37,68 +38,42 @@ export class AdsPerformanceRepository extends BaseQueryRepository {
   async findList(
     props: FilterUnderperformingAdsDTO,
   ): Promise<[AdsPerformanceEntity[], number]> {
-    let query: FindManyOptions<AdsPerformanceEntity> = {
-      where: {},
-      relations: ['client', 'contract'],
-    };
+    let queryDb = this.adsPerformanceEntity
+      .createQueryBuilder('ads')
+      .innerJoin(ContractEntity, 'contracts', 'ads.contract_id = contract.id')
+      .where('ads.actual_value < contract.kpi_target');
 
-    // sort & order query
-    query = this.sort(query, props);
-
-    // pagination query
-    query = this.paginate(query, props);
-
-    if (props.kpi_target) {
-      Object.assign(query.where, {
-        actual_value: LessThan(props.kpi_target),
-      });
-    }
     if (props.client_id) {
-      Object.assign(query.where, {
+      queryDb.andWhere('ads.client_id = :client_id', {
         client_id: props.client_id,
       });
     }
 
     if (props.contract_id) {
-      Object.assign(query.where, {
+      queryDb.andWhere('ads.contract_id = :contract_id', {
         contract_id: props.contract_id,
       });
     }
 
+    if (props.kpi_target) {
+      queryDb.andWhere('contracts.kpi_target = :kpi_target', {
+        kpi_target: props.kpi_target,
+      });
+    }
+
     if (props.kpi_type) {
-      Object.assign(query.where, {
-        kpiType: props.kpi_type,
+      queryDb.andWhere('ads.kpi_type = :kpi_type', {
+        kpi_type: props.kpi_type,
       });
     }
 
-    if (props.start_date && props.end_date) {
-      Object.assign(query.where, {
-        contract: {
-          startDate: MoreThanOrEqual(props.start_date),
-          endDate: LessThanOrEqual(props.end_date),
-        },
+    if (props.date) {
+      queryDb.andWhere('ads.kpi_type = :kpi_type', {
+        date: props.date,
       });
-    } else {
-      if (props.year) {
-        Object.assign(query.where, {
-          createdAt: props.kpi_type,
-        });
-      }
-
-      if (props.month) {
-        Object.assign(query.where, {
-          createdA: props.kpi_type,
-        });
-      }
-
-      if (props.date) {
-        Object.assign(query.where, {
-          createdAt: props.kpi_type,
-        });
-      }
     }
 
-    return await this.adsPerformanceEntity.findAndCount(query);
+    return await queryDb.getManyAndCount();
   }
 
   async create(
