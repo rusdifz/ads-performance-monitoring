@@ -23,8 +23,10 @@
 1. Clone the repository:
   git clone <repository-url>
   cd <repository-folder>
+
 2. Install npm :
   $ npm install
+
 3. create .env on root directory and copy field from .env.example
 
 4. Run Application :
