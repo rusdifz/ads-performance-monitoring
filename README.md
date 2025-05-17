@@ -13,7 +13,9 @@
 ## Documentation
 
 - Swagger Docs/open api - [http://localhost:3000/doc]
+- Postmane Docs - [https://documenter.getpostman.com/view/9862521/2sB2qWJ554]
 - Design System -[]
+- Decks Analisa -[]
 - Design Database Postgres -[]
 - All Other Information -[]
 
@@ -48,6 +50,10 @@
 
   # test coverage
   $ npm run test:cov
+
+6. Run Create Dummy data for test :
+  curl --location --request POST 'http://localhost:3000/api/v1/ads-performance/create-dummy-data' \
+  --header 'api-key: https://rb.gy/1e7y4t'
 
 ```
 

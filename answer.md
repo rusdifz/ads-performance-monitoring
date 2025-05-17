@@ -8,11 +8,15 @@
 
 2. Jika client punya banyak kontrak dan KPI sekaligus, bagaimana desain datanya agar scalable?
    dari latar belakang yang di berikan, saya akan membuat entitas berikut :
-   - kontrak, di sini akan saya tambahkan client id untuk relasi ke tabel client dan juga
-   - client,
-   - ads performance, disini tambahkan kontrak id untuk relasi ke tabel kontrak dan client id untuk relasi ke table client
-   - master kpi, di sini bisa di jadikan list type kpi yang tersedia agar kedepannya dapat memanage banyak kpi
-     selain itu di setiap entitas / tabel akan saya buat indexing ke kolom yang sering di gunakan untuk pencarian, untuk penjelasan detail dan schema database akan saya jelaskan via pdf
+
+| Tabel          | Kolom                                                                           | Keterangan                      |
+| -------------- | ------------------------------------------------------------------------------- | ------------------------------- |
+| Clients        | `id` (PK), `name`                                                               | Data klien                      |
+| Contracts      | `id` (PK), `client_id` (FK), `kpi_type`, `kpi_target`, `start_date`, `end_date` | Kontrak per client dengan KPI   |
+| AdPerformances | `id` (PK),`client_id`(FK),`contract_id` (FK), `date`, `kpi_type`,`actual_value` | Performa iklan per hari per KPI |
+
+selain itu di setiap entitas / tabel akan saya buat indexing ke kolom yang sering di gunakan untuk pencarian, untuk penjelasan detail dan schema database akan saya jelaskan via pdf
+
 3. Jika performa data datang dari sistem eksternal tiap 6 jam, bagaimana kamu desain
    sistem ingest-nya?
    disini saya mengasumsikan flow data yang akan berjalan seperti di ini : eksternal -> send file -> system check file -> validate data -> insert database
