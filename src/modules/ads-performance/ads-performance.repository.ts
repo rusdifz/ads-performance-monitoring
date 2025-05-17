@@ -16,6 +16,8 @@ import { BaseQueryRepository } from 'src/common/repositories';
 import { AdsPerformanceEntity } from './entities/ads-performance.entity';
 import { FilterUnderperformingAdsDTO } from './dto/request.dto';
 import { ContractEntity } from '../contract/entities/contract.entity';
+import { dayNow } from 'src/common/helpers';
+import { ClientEntity } from '../clients/entities/client.entity';
 
 @Injectable()
 export class AdsPerformanceRepository extends BaseQueryRepository {
@@ -40,12 +42,21 @@ export class AdsPerformanceRepository extends BaseQueryRepository {
   ): Promise<[AdsPerformanceEntity[], number]> {
     let queryDb = this.adsPerformanceEntity
       .createQueryBuilder('ads')
-      .innerJoin(ContractEntity, 'contracts', 'ads.contract_id = contract.id')
-      .where('ads.actual_value < contract.kpi_target');
+      .leftJoinAndSelect('ads.contract', 'contract')
+      .leftJoinAndSelect('ads.client', 'client')
+      .where('ads.actual_value < contract.kpi_target')
+      .andWhere('contract.start_date <= :date_now', { date_now: dayNow })
+      .andWhere('contract.end_date >= :date_now', { date_now: dayNow });
 
     if (props.client_id) {
       queryDb.andWhere('ads.client_id = :client_id', {
         client_id: props.client_id,
+      });
+    }
+
+    if (props.client_name) {
+      queryDb.andWhere('client.name like :client_name', {
+        client_name: `%${props.client_name}%`,
       });
     }
 
@@ -56,19 +67,31 @@ export class AdsPerformanceRepository extends BaseQueryRepository {
     }
 
     if (props.kpi_target) {
-      queryDb.andWhere('contracts.kpi_target = :kpi_target', {
+      queryDb.andWhere('contract.kpi_target = :kpi_target', {
         kpi_target: props.kpi_target,
       });
     }
 
     if (props.kpi_type) {
-      queryDb.andWhere('ads.kpi_type = :kpi_type', {
+      queryDb.andWhere('contract.kpi_type = :kpi_type', {
         kpi_type: props.kpi_type,
       });
     }
 
+    if (props.year) {
+      queryDb.andWhere('EXTRACT(YEAR FROM ads.created_at) = :year', {
+        year: props.year,
+      });
+    }
+
+    if (props.month) {
+      queryDb.andWhere('EXTRACT(MONTH FROM ads.created_at) = :month', {
+        month: props.month,
+      });
+    }
+
     if (props.date) {
-      queryDb.andWhere('ads.kpi_type = :kpi_type', {
+      queryDb.andWhere('ads.created_at = :date', {
         date: props.date,
       });
     }

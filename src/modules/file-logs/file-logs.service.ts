@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
-import { FileLogsRepository } from '../clients/clients.repository';
+import { FileLogsRepository } from './file-logs.repository';
 import { CreateFileLogsDTO } from './dto/request.dto';
 import { FileLogsEntity } from './entities/file-logs.entitiy';
 import { FindManyOptions, FindOneOptions } from 'typeorm';
 import { PaginationDTO } from 'src/common/dto';
+
 @Injectable()
 export class FileLogsService {
   constructor(private readonly repository: FileLogsRepository) {}

@@ -8,22 +8,24 @@ export function ApiSwaggerCustomHeader() {
   return applyDecorators(
     ApiHeader({
       name: 'api-key',
-      example: 'razfz-s4lw0a1',
+      example: 'https://rb.gy/1e7y4t',
       examples: {
         'api-key': {
           summary: 'api-key',
-          value: 'razfz-s4lw0a1',
+          value: 'https://rb.gy/1e7y4t',
         },
       },
       required: true,
     }),
     ApiHeader({
       name: 'Authorization',
-      example: '',
+      example:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjEwMCwidXNlciI6eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJ1c2RpZnoiLCJlbWFpbCI6ImZhdXphbnJ1c2RpMjBAZ21haWwuY29tIiwicm9sZSI6InN0YWZmIiwiaXNBY3RpdmUiOnRydWUsImNyZWF0ZWRBdCI6IjIwMjUtMDUtMTdUMDY6MjQ6MzUuNTE5WiJ9fQ.QxIiBsnlCWW6v9YVP5zFA7DFlwQQpq0b2Obb2uktw70',
       examples: {
         Authorization: {
           summary: 'JWT Token',
-          value: '',
+          value:
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjEwMCwidXNlciI6eyJpZCI6IjIiLCJ1c2VybmFtZSI6InJ1c2RpZnoiLCJlbWFpbCI6ImZhdXphbnJ1c2RpMjBAZ21haWwuY29tIiwicm9sZSI6InN0YWZmIiwiaXNBY3RpdmUiOnRydWUsImNyZWF0ZWRBdCI6IjIwMjUtMDUtMTdUMDY6MjQ6MzUuNTE5WiJ9fQ.QxIiBsnlCWW6v9YVP5zFA7DFlwQQpq0b2Obb2uktw70',
         },
       },
       required: true,

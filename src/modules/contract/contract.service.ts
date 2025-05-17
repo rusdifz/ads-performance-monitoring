@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
 
+import { ContractEntity } from './entities/contract.entity';
+import { ClientEntity } from '../clients/entities/client.entity';
+
 import { ContractRepository } from './contract.repository';
 import { FindManyOptions } from 'typeorm';
-import { ContractEntity } from './entities/contract.entity';
+import { dummyContract } from './dummy-data/contract.dummy';
+
 @Injectable()
 export class ContractService {
   constructor(private readonly repository: ContractRepository) {}
@@ -12,7 +16,6 @@ export class ContractService {
       where: {},
       relations: {
         client: true,
-        adsPerformance: true,
       },
     };
 
@@ -38,5 +41,27 @@ export class ContractService {
       data: mapData,
       count: findData[1],
     };
+  }
+
+  async getDetail(id: string): Promise<ContractEntity> {
+    return await this.repository.findOneBy({ id });
+  }
+
+  async createDummyData(
+    clientDummy: ClientEntity[],
+  ): Promise<ContractEntity[]> {
+    let resp: ContractEntity[] = [];
+
+    for (const client of clientDummy) {
+      for (const contract of dummyContract(client)) {
+        const insertData = await this.repository.save(contract);
+
+        if (insertData.id) {
+          resp.push(insertData);
+        }
+      }
+    }
+
+    return resp;
   }
 }

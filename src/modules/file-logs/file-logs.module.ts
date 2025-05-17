@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { FileLogsEntity } from './entities/file-logs.entitiy';
 
-import { FileLogsRepository } from '../clients/clients.repository';
+import { FileLogsRepository } from './file-logs.repository';
 import { FileLogsService } from './file-logs.service';
 import { FileLogsController } from './file-logs.controller';
 

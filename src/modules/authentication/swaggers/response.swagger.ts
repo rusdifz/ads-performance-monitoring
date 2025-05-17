@@ -3,19 +3,16 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IErrorData, IGlobalResp } from 'src/common/interfaces';
 import { httpStatus } from 'src/common/const';
 
-import {
-  ResCreatePerformanceDTO,
-  ResUnderperformingAdsDTO,
-} from '../dto/response.dto';
+import { ResRegisterUserDTO } from '../dto/response.dto';
 
-export class SwaggerGetUnderperformingAds implements IGlobalResp {
+export class SwaggerRegister implements IGlobalResp {
   @ApiProperty({ example: 'success' })
   message: string;
 
   @ApiProperty({
-    type: [ResUnderperformingAdsDTO],
+    type: ResRegisterUserDTO,
   })
-  data: ResUnderperformingAdsDTO[];
+  data: ResRegisterUserDTO;
 
   @ApiProperty({ example: '', description: 'Error message if any' })
   error: string;
@@ -27,14 +24,15 @@ export class SwaggerGetUnderperformingAds implements IGlobalResp {
   error_data: IErrorData[];
 }
 
-export class SwaggerCreatedAdPerformanceSuccess implements IGlobalResp {
+export class SwaggerLogin implements IGlobalResp {
   @ApiProperty({ example: 'success' })
   message: string;
 
   @ApiProperty({
-    type: ResCreatePerformanceDTO,
+    example:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30',
   })
-  data: ResCreatePerformanceDTO;
+  data: string;
 
   @ApiProperty({ example: '', description: 'Error message if any' })
   error: string;
@@ -46,7 +44,27 @@ export class SwaggerCreatedAdPerformanceSuccess implements IGlobalResp {
   error_data: IErrorData[];
 }
 
-export class SwaggerBadRequestCreateAdPerformance implements IGlobalResp {
+export class SwaggerChangePassword implements IGlobalResp {
+  @ApiProperty({ example: 'success' })
+  message: string;
+
+  @ApiProperty({
+    example:
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30',
+  })
+  data: string;
+
+  @ApiProperty({ example: '', description: 'Error message if any' })
+  error: string;
+
+  @ApiProperty({
+    example: [],
+    description: 'List of error details',
+  })
+  error_data: IErrorData[];
+}
+
+export class SwaggerBadRequest implements IGlobalResp {
   @ApiProperty({ example: httpStatus[400] })
   message: string;
 
@@ -56,7 +74,7 @@ export class SwaggerBadRequestCreateAdPerformance implements IGlobalResp {
   data: Record<string, never>;
 
   @ApiProperty({
-    example: 'client not found',
+    example: 'Question Name Duplicate',
     description: 'Error message if any',
   })
   error: string;
@@ -64,7 +82,7 @@ export class SwaggerBadRequestCreateAdPerformance implements IGlobalResp {
   @ApiProperty({
     example: [
       {
-        info: 'contract expired Not Valid',
+        info: 'Question A',
         message: 'Question Name Duplicate',
       },
     ],

@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
-import { IJwtn } from 'src/modules/authentication/interfaces/jwt.interface';
+import { IJwtUser } from 'src/modules/user/interfaces/user-jwt.interface';
 
 @Injectable()
 export class AuthAdminGuard implements CanActivate {
@@ -19,7 +19,7 @@ export class AuthAdminGuard implements CanActivate {
     }
 
     try {
-      const userData = jwt.verify(token, process.env.JWT_KEY) as IJwtAdmin;
+      const userData = jwt.verify(token, process.env.JWT_KEY) as IJwtUser;
 
       request.headers['user_data'] = userData;
 

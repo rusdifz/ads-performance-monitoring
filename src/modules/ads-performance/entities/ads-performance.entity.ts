@@ -3,12 +3,10 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn,
   DeleteDateColumn,
   Index,
   ManyToOne,
   JoinColumn,
-  OneToOne,
 } from 'typeorm';
 
 import { ClientEntity } from 'src/modules/clients/entities/client.entity';
@@ -28,17 +26,14 @@ export class AdsPerformanceEntity {
   @Column({ type: 'uuid', name: 'contract_id' })
   contractId: string;
 
-  @Column({ type: 'float' })
-  actual_value: number;
+  @Column({ type: 'decimal', name: 'actual_value', precision: 5, scale: 2 })
+  actualValue: number;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  updatedAt: Date;
+  createdAt?: Date;
 
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp' })
-  deletedAt: Date;
+  deletedAt?: Date;
 
   @ManyToOne(() => ClientEntity, {
     createForeignKeyConstraints: true,
@@ -46,7 +41,7 @@ export class AdsPerformanceEntity {
   @JoinColumn({ name: 'client_id', referencedColumnName: 'id' })
   client?: ClientEntity;
 
-  @OneToOne(() => ContractEntity, (entity) => entity.adsPerformance, {
+  @ManyToOne(() => ContractEntity, {
     createForeignKeyConstraints: true,
   })
   @JoinColumn({ name: 'contract_id', referencedColumnName: 'id' })

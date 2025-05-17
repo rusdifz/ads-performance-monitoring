@@ -21,70 +21,66 @@ import { ContractEntity } from 'src/modules/contract/entities/contract.entity';
 import { IsExist } from 'src/common/decorators/is-exists.decorator';
 
 export class FilterUnderperformingAdsDTO extends PaginationDTO {
-  @ApiProperty({ example: 0.03 })
+  @ApiPropertyOptional({ example: 0.03 })
   @Transform(({ value }) => Number(value))
   @IsNumber()
-  @IsNotEmpty()
-  kpi_target: number;
+  @IsOptional()
+  kpi_target?: number;
 
-  @ApiProperty({ example: '60e60a02-9271-4359-87e9-d16877112864' })
-  @ValidateIf((o) => !o.contract_id)
-  @IsNotEmpty({ message: 'client id or contract id not empty' })
+  @ApiPropertyOptional({ example: '60e60a02-9271-4359-87e9-d16877112864' })
+  @IsOptional()
   @IsString()
-  client_id: string;
+  client_id?: string;
 
-  @ApiProperty({ example: '60e60a02-9271-4359-87e9-d16877112864' })
-  @ValidateIf((o) => !o.client_id)
-  @IsNotEmpty({ message: 'client id or contract id not empty' })
+  @ApiPropertyOptional({
+    example: 'Hilir Digital',
+    description: 'search by client name',
+  })
+  @IsOptional()
   @IsString()
+  client_name?: string;
+
+  @ApiPropertyOptional({ example: '60e60a02-9271-4359-87e9-d16877112864' })
+  @IsString()
+  @IsOptional()
   contract_id: string;
 
   @ApiPropertyOptional({ example: KpiEnums.CTR })
   @IsEnum(KpiEnums)
   @IsOptional()
-  kpi_type: KpiEnums;
-
-  @ApiPropertyOptional({ example: '2024-10-01' })
-  @IsDate()
-  @IsOptional()
-  start_date: Date;
-
-  @ApiPropertyOptional({ example: '2024-10-01' })
-  @IsDate()
-  @IsOptional()
-  end_date: Date;
+  kpi_type?: KpiEnums;
 
   @ApiPropertyOptional({ example: '2024' })
   @IsString()
   @IsOptional()
-  year: string;
+  year?: string;
 
   @ApiPropertyOptional({ example: '10' })
   @IsString()
   @IsOptional()
-  month: string;
+  month?: string;
 
-  @ApiPropertyOptional({ example: '01' })
+  @ApiPropertyOptional({ example: '2024-10-01' })
   @IsString()
   @IsOptional()
-  date: string;
+  date?: string;
 }
 
 export class CreateAdPerformanceDTO implements Partial<AdsPerformanceEntity> {
   @ApiProperty({ example: 'd5f829fe-82a5-473b-bcfb-c6ea0094f184' })
   @IsNotEmpty()
   @IsUUID()
-  @IsExist(ClientEntity, 'id', { message: 'id client not found' })
+  @IsExist(ClientEntity, 'id', { message: 'id client not found' }) //if client id, check client id valid
   clientId: string;
 
   @ApiProperty({ example: '41e990c7-8f91-43b9-8f62-ff95c3ee43bf' })
   @IsNotEmpty()
   @IsUUID()
-  @IsExist(ContractEntity, 'id', { message: 'id contract not found' })
+  @IsExist(ContractEntity, 'id', { message: 'id contract not found' }) //if contract id, check contract id valid
   contractId: string;
 
   @ApiProperty({ example: 0.3 })
   @IsNotEmpty()
   @IsNumber()
-  actual_value: number;
+  actualValue: number;
 }

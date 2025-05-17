@@ -25,24 +25,21 @@ export class ContractEntity {
   clientId: string;
 
   @Index()
-  @Column({ type: 'uuid', name: 'ads_performance_id' })
-  adsPerformanceId: string;
-
-  @Index()
   @Column({
     type: 'enum',
     enum: KpiEnums,
     default: KpiEnums.CTR,
+    name: 'kpi_type',
   })
   kpiType: KpiEnums;
 
-  @Column({ type: 'float' })
+  @Column('decimal', { precision: 5, scale: 2, name: 'kpi_target' })
   kpiTarget: number;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', name: 'start_date' })
   startDate: Date;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', name: 'end_date' })
   endDate: Date;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
@@ -59,10 +56,4 @@ export class ContractEntity {
   })
   @JoinColumn({ name: 'client_id', referencedColumnName: 'id' })
   client?: ClientEntity;
-
-  @OneToOne(() => AdsPerformanceEntity, (entity) => entity.contract, {
-    createForeignKeyConstraints: true,
-  })
-  @JoinColumn({ name: 'ads_performance_id', referencedColumnName: 'id' })
-  adsPerformance?: AdsPerformanceEntity;
 }

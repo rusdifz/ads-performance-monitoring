@@ -2,21 +2,20 @@
 
 ## Key Features / Available Modules
 
-- Authentication Module
+- Authentication Module (ready to use)
 - User Module
-- Feedback Module
-- Feedback Category Module
-- Feedback Question Module
-- Counselor Visit Module
-- Notification Module
+- Ads Performance Module (ready to use)
+- Clients Module
+- Contract Module
+- File Logs Module
+- Job Logs Module
 
 ## Documentation
 
-- Swagger Docs/open api - [https://lost-faina-razdev-fa08e1ef.koyeb.app/doc]
+- Swagger Docs/open api - [http://localhost:3000/doc]
 - Design System -[]
 - Design Database Postgres -[]
-
-- All Other Information -[https://drive.google.com/drive/folders/1x6LExqlekFwSHWlOm8LUeS4MBy8_NgDv?usp=sharing]
+- All Other Information -[]
 
 ## How To Run
 
@@ -26,8 +25,9 @@
   cd <repository-folder>
 2. Install npm :
   $ npm install
+3. create .env on root directory and copy field from .env.example
 
-3. Run Application :
+4. Run Application :
   # development
   $ npm run start
 
@@ -37,7 +37,7 @@
   # production mode
   $ npm run start:prod
 
-4. Run Unit Test :
+5. Run Unit Test :
   # unit tests
   $ npm run test
 

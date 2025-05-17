@@ -36,8 +36,7 @@ import { AdsPerformanceService } from './ads-performance.service';
 import { IJwtUser } from '../user/interfaces/user-jwt.interface';
 import { AdminAuth } from 'src/common/decorators';
 
-@Controller('')
-@UseGuards(AuthAdminGuard)
+@Controller('ads-performance')
 @ApiSwaggerCustomHeader()
 @ApiSwaggerInternalServerError()
 export class AdsPerformanceController {
@@ -51,8 +50,9 @@ export class AdsPerformanceController {
     type: SwaggerGetUnderperformingAds,
   })
   @ApiInternalServerErrorResponse()
+  @UseGuards(AuthAdminGuard)
   @Version('1')
-  @Get('underperforming-ads')
+  @Get('underperforming')
   async getUnderperformingAds(@Query() query: FilterUnderperformingAdsDTO) {
     return await this.service.getUnderperformingAds(query);
   }
@@ -68,12 +68,26 @@ export class AdsPerformanceController {
     description: httpStatus[400],
     type: SwaggerBadRequestCreateAdPerformance,
   })
+  @UseGuards(AuthAdminGuard)
   @Version('1')
-  @Post('ad-performances')
+  @Post('')
   async updateStatus(
     @AdminAuth() admin: IJwtUser, // use this to get user data from header
     @Body() body: CreateAdPerformanceDTO,
   ) {
     return await this.service.createPerformanceAds(body, admin);
+  }
+
+  @ApiOperation({
+    summary: 'endpoint create dummy (not insert to logs)',
+  })
+  @ApiCreatedResponse({
+    description: httpStatus[201],
+    type: [SwaggerCreatedAdPerformanceSuccess],
+  })
+  @Version('1')
+  @Post('create-dummy-data')
+  async createDummyData() {
+    return await this.service.createDummyData();
   }
 }

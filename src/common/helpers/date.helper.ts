@@ -24,3 +24,11 @@ export function compareInSeconds(dateA: any, dateB: any) {
 export const dayNow = dayjs().tz('Asia/Jakarta').format(); // daynow jakarta
 
 export const monthAgo = dayjs().subtract(1, 'month').format('YYYY-MM-DD');
+
+// Menghitung durasi dalam milidetik
+
+export const durationHour = (startTime, endTime) => {
+  const durationMs = endTime - startTime;
+
+  return durationMs / (1000 * 60 * 60);
+};

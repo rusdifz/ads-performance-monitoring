@@ -10,10 +10,10 @@ import {
 
 import { UserRoleEnum } from '../enums/user.enum';
 
-@Entity({ name: 'admin' })
+@Entity({ name: 'user' })
 export class AdminUserEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn({ type: 'bigint' })
+  id: number;
 
   @Index()
   @Column({ unique: true, type: 'varchar', length: 100 })
@@ -24,7 +24,7 @@ export class AdminUserEntity {
   email: string;
 
   @Column({ type: 'varchar', length: 255 })
-  password: string;
+  password?: string;
 
   @Column({
     type: 'enum',
@@ -42,11 +42,11 @@ export class AdminUserEntity {
   isActive: boolean;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  updatedAt: Date;
+  updatedAt?: Date;
 
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp' })
-  deletedAt: Date;
+  deletedAt?: Date;
 }
